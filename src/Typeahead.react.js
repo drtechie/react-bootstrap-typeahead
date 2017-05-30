@@ -148,6 +148,10 @@ const Typeahead = createReactClass({
      * Propagate <RETURN> event to parent form.
      */
     submitFormOnEnter: PropTypes.bool,
+    /**
+     * Propagate <RETURN> event to parent form.
+     */
+    handleOnEnter: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -174,6 +178,7 @@ const Typeahead = createReactClass({
       paginate: true,
       selected: [],
       submitFormOnEnter: false,
+      handleOnEnter: noop,
     };
   },
 
@@ -485,7 +490,7 @@ const Typeahead = createReactClass({
     if (
       isEqual(initialItem, currentItem) ||
       (initialItem.customOption &&
-       initialItem[labelKey] === currentItem[labelKey])
+      initialItem[labelKey] === currentItem[labelKey])
     ) {
       return;
     }
@@ -556,6 +561,9 @@ const Typeahead = createReactClass({
 
         if (showMenu && activeItem) {
           this._handleAddOption(activeItem);
+        }
+        else {
+          this.props.handleOnEnter();
         }
         break;
     }

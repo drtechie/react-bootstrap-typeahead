@@ -3,3 +3,5 @@ example/package-example.js
 lib
 node_modules
 npm-debug.log
+#Ignore IDE preferences
+/.idea
