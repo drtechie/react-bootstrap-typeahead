@@ -149,9 +149,13 @@ const Typeahead = createReactClass({
      */
     submitFormOnEnter: PropTypes.bool,
     /**
-     * Propagate <RETURN> event to parent form.
+     * handle ENTER on text input => Submit form
      */
     handleOnEnter: PropTypes.func,
+    /**
+     * handle ENTER on item => Go to item page
+     */
+    handleItemOnEnter: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -179,6 +183,7 @@ const Typeahead = createReactClass({
       selected: [],
       submitFormOnEnter: false,
       handleOnEnter: noop,
+      handleItemOnEnter: noop
     };
   },
 
@@ -561,6 +566,7 @@ const Typeahead = createReactClass({
 
         if (showMenu && activeItem) {
           this._handleAddOption(activeItem);
+          this.props.handleItemOnEnter(activeItem.content_type, activeItem.slug);
         }
         else {
           this.props.handleOnEnter();

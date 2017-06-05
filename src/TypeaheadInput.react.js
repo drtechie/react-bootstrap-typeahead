@@ -47,9 +47,10 @@ class TypeaheadInput extends React.Component {
       name,
       onFocus,
       placeholder,
-      selected,
-      value,
+      selected
     } = this.props;
+
+    let value = this._html2text(this.props.value)
 
     const inputProps = {
       bsSize,
@@ -58,7 +59,7 @@ class TypeaheadInput extends React.Component {
       name,
       onFocus,
       placeholder,
-      value,
+      value
     };
 
     return (
@@ -104,7 +105,7 @@ class TypeaheadInput extends React.Component {
             zIndex: 0,
           }}
           tabIndex={-1}
-          value={this.state.isFocused ? hintText : ''}
+          value={this.state.isFocused ? this._html2text(hintText) : ''}
         />
       </div>
     );
@@ -116,6 +117,13 @@ class TypeaheadInput extends React.Component {
 
   focus() {
     this._handleInputFocus();
+  }
+
+  _html2text(html) {
+    let tag = document.createElement('div');
+    tag.innerHTML = html;
+
+    return tag.innerText;
   }
 
   _handleBlur(e) {

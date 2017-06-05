@@ -2,7 +2,7 @@ import {debounce} from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DEFAULT_DELAY_MS = 200;
+const DEFAULT_DELAY_MS = 500;
 
 /**
  * HoC that encapsulates common behavior and functionality for doing

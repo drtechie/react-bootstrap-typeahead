@@ -21,8 +21,7 @@ const menuItemContainer = Component => (
     contextTypes: {
       activeIndex: PropTypes.number.isRequired,
       onActiveItemChange: PropTypes.func.isRequired,
-      onInitialItemChange: PropTypes.func.isRequired,
-      onMenuItemClick: PropTypes.func.isRequired,
+      onInitialItemChange: PropTypes.func.isRequired
     },
 
     componentWillMount() {
@@ -52,14 +51,14 @@ const menuItemContainer = Component => (
     },
 
     render() {
-      const {activeIndex, onMenuItemClick} = this.context;
-      const {option, position, ...props} = this.props;
+      const {activeIndex} = this.context;
+      const {position, onMenuItemClick, ...props} = this.props;
 
       return (
         <Component
           {...props}
           active={activeIndex === position}
-          onClick={() => onMenuItemClick(option)}
+          onClick={() => onMenuItemClick()}
         />
       );
     },

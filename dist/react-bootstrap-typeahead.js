@@ -1490,16 +1490,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _props = this.props,
 	          active = _props.active,
 	          children = _props.children,
-	          className = _props.className,
-	          disabled = _props.disabled;
+	          className = _props.className;
 
 
 	      return _react2.default.createElement(
 	        'li',
 	        {
 	          className: (0, _classnames2.default)({
-	            'active': active,
-	            'disabled': disabled
+	            'active': active
 	          }, className) },
 	        _react2.default.createElement(
 	          'a',
@@ -1511,13 +1509,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_handleClick',
 	    value: function _handleClick(e) {
-	      var _props2 = this.props,
-	          disabled = _props2.disabled,
-	          onClick = _props2.onClick;
+	      var onClick = this.props.onClick;
 
 
-	      e.preventDefault();
-	      !disabled && onClick(e);
+	      onClick(e);
 	    }
 	  }]);
 
@@ -3024,9 +3019,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    submitFormOnEnter: _propTypes2.default.bool,
 	    /**
-	     * Propagate <RETURN> event to parent form.
+	     * handle ENTER on text input => Submit form
 	     */
-	    handleOnEnter: _propTypes2.default.func
+	    handleOnEnter: _propTypes2.default.func,
+	    /**
+	     * handle ENTER on item => Go to item page
+	     */
+	    handleItemOnEnter: _propTypes2.default.func
 	  },
 
 	  getDefaultProps: function getDefaultProps() {
@@ -3053,7 +3052,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      paginate: true,
 	      selected: [],
 	      submitFormOnEnter: false,
-	      handleOnEnter: _noop3.default
+	      handleOnEnter: _noop3.default,
+	      handleItemOnEnter: _noop3.default
 	    };
 	  },
 
@@ -3446,6 +3446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (showMenu && activeItem) {
 	          this._handleAddOption(activeItem);
+	          this.props.handleItemOnEnter(activeItem.content_type, activeItem.slug);
 	        } else {
 	          this.props.handleOnEnter();
 	        }
@@ -3570,7 +3571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var DEFAULT_DELAY_MS = 200;
+	var DEFAULT_DELAY_MS = 500;
 
 	/**
 	 * HoC that encapsulates common behavior and functionality for doing
@@ -3847,8 +3848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    contextTypes: {
 	      activeIndex: _propTypes2.default.number.isRequired,
 	      onActiveItemChange: _propTypes2.default.func.isRequired,
-	      onInitialItemChange: _propTypes2.default.func.isRequired,
-	      onMenuItemClick: _propTypes2.default.func.isRequired
+	      onInitialItemChange: _propTypes2.default.func.isRequired
 	    },
 
 	    componentWillMount: function componentWillMount() {
@@ -3879,19 +3879,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this._updateInitialItem(nextProps);
 	    },
 	    render: function render() {
-	      var _context = this.context,
-	          activeIndex = _context.activeIndex,
-	          onMenuItemClick = _context.onMenuItemClick;
+	      var activeIndex = this.context.activeIndex;
 
 	      var _props = this.props,
-	          option = _props.option,
 	          position = _props.position,
-	          props = _objectWithoutProperties(_props, ['option', 'position']);
+	          onMenuItemClick = _props.onMenuItemClick,
+	          props = _objectWithoutProperties(_props, ['position', 'onMenuItemClick']);
 
 	      return _react2.default.createElement(Component, _extends({}, props, {
 	        active: activeIndex === position,
 	        onClick: function onClick() {
-	          return onMenuItemClick(option);
+	          return onMenuItemClick();
 	        }
 	      }));
 	    },
@@ -7591,9 +7589,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          name = _props2.name,
 	          onFocus = _props2.onFocus,
 	          placeholder = _props2.placeholder,
-	          selected = _props2.selected,
-	          value = _props2.value;
+	          selected = _props2.selected;
 
+
+	      var value = this._html2text(this.props.value);
 
 	      var inputProps = {
 	        bsSize: bsSize,
@@ -7650,7 +7649,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            zIndex: 0
 	          },
 	          tabIndex: -1,
-	          value: this.state.isFocused ? hintText : ''
+	          value: this.state.isFocused ? this._html2text(hintText) : ''
 	        })
 	      );
 	    }
@@ -7663,6 +7662,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'focus',
 	    value: function focus() {
 	      this._handleInputFocus();
+	    }
+	  }, {
+	    key: '_html2text',
+	    value: function _html2text(html) {
+	      var tag = document.createElement('div');
+	      tag.innerHTML = html;
+
+	      return tag.innerText;
 	    }
 	  }, {
 	    key: '_handleBlur',

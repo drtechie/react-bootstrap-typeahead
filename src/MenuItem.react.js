@@ -16,13 +16,12 @@ class BaseMenuItem extends React.Component {
   }
 
   render() {
-    const {active, children, className, disabled} = this.props;
+    const {active, children, className} = this.props;
 
     return (
       <li
         className={cx({
-          'active': active,
-          'disabled': disabled,
+          'active': active
         }, className)}>
         <a onClick={this._handleClick} role="button">
           {children}
@@ -32,10 +31,9 @@ class BaseMenuItem extends React.Component {
   }
 
   _handleClick(e) {
-    const {disabled, onClick} = this.props;
+    const {onClick} = this.props;
 
-    e.preventDefault();
-    !disabled && onClick(e);
+    onClick(e);
   }
 }
 
