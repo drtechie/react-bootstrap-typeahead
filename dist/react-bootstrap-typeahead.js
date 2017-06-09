@@ -3446,7 +3446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (showMenu && activeItem) {
 	          this._handleAddOption(activeItem);
-	          this.props.handleItemOnEnter(activeItem.content_type, activeItem.slug);
+	          this.props.handleItemOnEnter(activeItem.url);
 	        } else {
 	          this.props.handleOnEnter();
 	        }
