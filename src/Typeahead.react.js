@@ -566,7 +566,7 @@ const Typeahead = createReactClass({
 
         if (showMenu && activeItem) {
           this._handleAddOption(activeItem);
-          this.props.handleItemOnEnter(activeItem.content_type, activeItem.slug);
+          this.props.handleItemOnEnter(activeItem.url);
         }
         else {
           this.props.handleOnEnter();
